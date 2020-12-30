@@ -1,67 +1,32 @@
 <?php
-    session_start()
-?>
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário de Inscrição</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    
-    <?php
+session_start();
 
-        $categorias = ["infantil", "adolescente", "adulto", "idoso"];
+include "servicos/definirCategoria.php";
+include "servicos/mensagemSessao.php";
+include "servicos/validacaoDados.php";
 
-        $nome = $_POST['nome'];
-        $idade = $_POST['idade'];
+$nome = $_POST['nome'];
+$idade = $_POST['idade'];
 
-        if (empty($nome) || empty($idade))
-        {
-            $_SESSION['mensagem-erro'] = "Todos os campos devem ser preenchidos.";
-        }
-        else if (strlen($nome) < 3)
-        {
-            $_SESSION['mensagem-erro'] = "O nome deve conter ao menos 3 caracteres.";
-        }
-        else if (strlen($nome) > 50)
-        {
-            $_SESSION['mensagem-erro'] = "O nome não pode conter mais que 50 caracteres.";
-        }
-        else if (!is_numeric($idade) || $idade < 0 || $idade > 130)
-        {
-            $_SESSION['mensagem-erro'] = "A idade inserida não é válida.";
-        }
-        else
-        {
-            if ($idade < 6) 
-            {
-                $_SESSION['mensagem-erro'] = "O(a) candidato(a) $nome não tem idade suficiente.";
-            }
-            else if ($idade >= 6 && $idade <= 12)
-            {
-                $_SESSION['mensagem-erro'] = "O(a) candidato(a) $nome pertence à categoria $categorias[0].";
-            }
-            else if ($idade >= 13 && $idade <= 17)
-            {
-                $_SESSION['mensagem-erro'] = "O(a) candidato(a) $nome pertence à categoria $categorias[1].";
-            }
-            else if ($idade >= 18 && $idade <= 59)
-            {
-                $_SESSION['mensagem-erro'] = "O(a) candidato(a) $nome pertence à categoria $categorias[2].";
-            }
-            else if ($idade >= 60)
-            {
-                $_SESSION['mensagem-erro'] = "O(a) candidato(a) $nome pertence à categoria $categorias[3].";
-            }
-        }
+if (validarNome($nome) === false && validarIdade($idade) === false)
+{
+    definirMsgSessao("Insira nome e idade válidos.");
+}
+else if (validarNome($nome) === false)
+{
+    definirMsgSessao("Insira um nome válido.");
+}
+else if (validarIdade($idade) === false)
+{
+    definirMsgSessao("Insira uma idade válida.");
+}
+else
+{
+    $categoria = definirCategoria($idade);
 
-        header('location: index.php');
- 
-    ?>
+    definirMsgSessao("O(a) candidato(a) $nome pertence à categoria $categoria.");
 
-</body>
-</html>
+}
+
+header('location: index.php');

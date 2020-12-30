@@ -1,5 +1,6 @@
 <?php
     session_start();
+    include "servicos/mensagemSessao.php";
 ?>
 
 <!DOCTYPE html>
@@ -16,18 +17,7 @@
     </div>
 
     <div id="mensagem">
-        <p>
-            <?php 
-            if (empty($_SESSION['mensagem-erro']))
-            {
-                echo "";
-            }
-            else
-            {
-                echo $_SESSION['mensagem-erro'];
-            }
-            ?>
-        </p>
+        <p> <?php echo obterMsgSessao(); ?> </p>
     </div>
     
     <div id="formulario">
