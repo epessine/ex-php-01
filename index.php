@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,7 +12,22 @@
 </head>
 <body>
     <div id="titulo">
-        <p>Formulário de Inscrição de Competidores </p>
+        <h2>Formulário de Inscrição de Competidores</h2>
+    </div>
+
+    <div id="mensagem">
+        <p>
+            <?php 
+            if (empty($_SESSION['mensagem-erro']))
+            {
+                echo "";
+            }
+            else
+            {
+                echo $_SESSION['mensagem-erro'];
+            }
+            ?>
+        </p>
     </div>
     
     <div id="formulario">
