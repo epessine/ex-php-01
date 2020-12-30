@@ -1,0 +1,14 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+#formulario form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
